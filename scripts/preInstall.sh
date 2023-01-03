@@ -24,7 +24,7 @@ CREATE USER 'mail_admin'@'localhost' IDENTIFIED BY 'Isadmin123';
 GRANT ALL PRIVILEGES ON * . * TO 'root'@'%' IDENTIFIED BY 'my-secret-pw';
 GRANT ALL PRIVILEGES ON * . * TO 'onlyoffice_user'@'%' IDENTIFIED BY 'onlyoffice_pass';
 GRANT ALL PRIVILEGES ON * . * TO 'mail_admin'@'%' IDENTIFIED BY 'Isadmin123';
-FLUSH PRIVILEGES;" > /app/onlyoffice/mysql/initdb/setup.sql
+FLUSH PRIVILEGES;" > ./app/onlyoffice/mysql/initdb/setup.sql
 
 
 # mkdir mysql_data
