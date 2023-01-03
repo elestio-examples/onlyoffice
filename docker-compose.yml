@@ -150,7 +150,7 @@ services:
      - ./config/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
      - ./mysql_data:/var/lib/mysql
   onlyoffice-community-server:
-    image: onlyoffice/communityserver:${SOFTWARE_VERSION_TAG}
+    image: onlyoffice/communityserver:latest
     depends_on:
      - onlyoffice-mysql-server
     environment:
