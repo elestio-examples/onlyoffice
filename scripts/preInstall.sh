@@ -1,9 +1,9 @@
 set env vars
 set -o allexport; source .env; set +o allexport;
 
-mkdir app/onlyoffice/mysql/conf.d
+mkdir -p "/app/onlyoffice/mysql/conf.d"
 mkdir app/onlyoffice/mysql/data
-mkdir app/onlyoffice/mysql/initdb
+mkdir -p "/app/onlyoffice/mysql/initdb"
 
 mkdir app/onlyoffice/CommunityServer/data
 mkdir app/onlyoffice/CommunityServer/logs
