@@ -2,21 +2,21 @@ set env vars
 set -o allexport; source .env; set +o allexport;
 
 mkdir -p "/app/onlyoffice/mysql/conf.d"
-mkdir app/onlyoffice/mysql/data
+mkdir -p "app/onlyoffice/mysql/data"
 mkdir -p "/app/onlyoffice/mysql/initdb"
 
-mkdir app/onlyoffice/CommunityServer/data
-mkdir app/onlyoffice/CommunityServer/logs
-mkdir app/onlyoffice/CommunityServer/letsencrypt
+mkdir -p "app/onlyoffice/CommunityServer/data"
+mkdir -p "app/onlyoffice/CommunityServer/logs"
+mkdir -p "app/onlyoffice/CommunityServer/letsencrypt"
 
-mkdir app/onlyoffice/DocumentServer/data
-mkdir app/onlyoffice/DocumentServer/logs
+mkdir -p "app/onlyoffice/DocumentServer/data"
+mkdir -p "app/onlyoffice/DocumentServer/logs"
 
-mkdir app/onlyoffice/MailServer/data/certs
-mkdir app/onlyoffice/MailServer/logs
+mkdir -p "app/onlyoffice/MailServer/data/certs"
+mkdir -p "app/onlyoffice/MailServer/logs"
 
-mkdir app/onlyoffice/ControlPanel/data
-mkdir app/onlyoffice/ControlPanel/logs
+mkdir -p "app/onlyoffice/ControlPanel/data"
+mkdir -p "app/onlyoffice/ControlPanel/logs"
 
 
 echo "CREATE USER 'onlyoffice_user'@'localhost' IDENTIFIED BY 'onlyoffice_pass';
@@ -24,7 +24,7 @@ CREATE USER 'mail_admin'@'localhost' IDENTIFIED BY 'Isadmin123';
 GRANT ALL PRIVILEGES ON * . * TO 'root'@'%' IDENTIFIED BY 'my-secret-pw';
 GRANT ALL PRIVILEGES ON * . * TO 'onlyoffice_user'@'%' IDENTIFIED BY 'onlyoffice_pass';
 GRANT ALL PRIVILEGES ON * . * TO 'mail_admin'@'%' IDENTIFIED BY 'Isadmin123';
-FLUSH PRIVILEGES;" > ./app/onlyoffice/mysql/initdb/setup.sql
+FLUSH PRIVILEGES;" > /app/onlyoffice/mysql/initdb/setup.sql
 
 
 # mkdir mysql_data
