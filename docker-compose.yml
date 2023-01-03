@@ -1,56 +1,56 @@
-# version: '3.3'
-# services:
-#     mysql:
-#         image: 'mysql:5.7'
-#         restart: always
-#         volumes:
-#             - './app/onlyoffice/mysql/conf.d:/etc/mysql/conf.d'
-#             - './app/onlyoffice/mysql/data:/var/lib/mysql'
-#             - './app/onlyoffice/mysql/initdb:/docker-entrypoint-initdb.d'
-#         environment:
-#             - MYSQL_ROOT_PASSWORD=my-secret-pw
-#             - MYSQL_DATABASE=onlyoffice
-
-#     communityserver:
-#         image: onlyoffice/communityserver
-#         privileged: true
-#         restart: always
-#         ports:
-#             - '172.17.0.1:19543:80'
-#             # - '443:443'
-#             # - '5222:5222'
-#         environment:
-#             - MYSQL_SERVER_ROOT_PASSWORD=my-secret-pw
-#             - MYSQL_SERVER_DB_NAME=onlyoffice
-#             - MYSQL_SERVER_HOST=onlyoffice-mysql-server
-#             - MYSQL_SERVER_USER=onlyoffice_user
-#             - MYSQL_SERVER_PASS=onlyoffice_pass
-#         volumes:
-#             - './app/onlyoffice/CommunityServer/data:/var/www/onlyoffice/Data'
-#             - './app/onlyoffice/CommunityServer/logs:/var/log/onlyoffice'
-#             - './app/onlyoffice/CommunityServer/letsencrypt:/etc/letsencrypt'
-#             - './sys/fs/cgroup:/sys/fs/cgroup:ro'
-
-#     documentserver:
-#         image: onlyoffice/documentserver
-#         restart: always
-#         volumes:
-#             - './app/onlyoffice/DocumentServer/logs:/var/log/onlyoffice'
-#             - './app/onlyoffice/DocumentServer/data:/var/www/onlyoffice/Data'
-#             - './app/onlyoffice/DocumentServer/fonts:/usr/share/fonts/truetype/custom'
-#             - './app/onlyoffice/DocumentServer/forgotten:/var/lib/onlyoffice/documentserver/App_Data/cache/files/forgotten'
-
 version: '3.3'
 services:
-    documentserver:
-        image: onlyoffice/documentserver
+    mysql:
+        image: 'mysql:5.7'
+        restart: always
+        volumes:
+            - './app/onlyoffice/mysql/conf.d:/etc/mysql/conf.d'
+            - './app/onlyoffice/mysql/data:/var/lib/mysql'
+            - './app/onlyoffice/mysql/initdb:/docker-entrypoint-initdb.d'
+        environment:
+            - MYSQL_ROOT_PASSWORD=my-secret-pw
+            - MYSQL_DATABASE=onlyoffice
+
+    communityserver:
+        image: onlyoffice/communityserver
+        privileged: true
         restart: always
         ports:
             - '172.17.0.1:19543:80'
+            # - '443:443'
+            # - '5222:5222'
+        environment:
+            - MYSQL_SERVER_ROOT_PASSWORD=my-secret-pw
+            - MYSQL_SERVER_DB_NAME=onlyoffice
+            - MYSQL_SERVER_HOST=onlyoffice-mysql-server
+            - MYSQL_SERVER_USER=onlyoffice_user
+            - MYSQL_SERVER_PASS=onlyoffice_pass
+        volumes:
+            - './app/onlyoffice/CommunityServer/data:/var/www/onlyoffice/Data'
+            - './app/onlyoffice/CommunityServer/logs:/var/log/onlyoffice'
+            - './app/onlyoffice/CommunityServer/letsencrypt:/etc/letsencrypt'
+            - './sys/fs/cgroup:/sys/fs/cgroup:ro'
+
+    documentserver:
+        image: onlyoffice/documentserver
+        restart: always
         volumes:
             - './app/onlyoffice/DocumentServer/logs:/var/log/onlyoffice'
             - './app/onlyoffice/DocumentServer/data:/var/www/onlyoffice/Data'
-            - './app/onlyoffice/DocumentServer/lib:/var/lib/onlyoffice'
-            - './app/onlyoffice/DocumentServer/rabbitmq:/var/lib/rabbitmq'
-            - './app/onlyoffice/DocumentServer/redis:/var/lib/redis'
-            - './app/onlyoffice/DocumentServer/db:/var/lib/postgresql'
+            - './app/onlyoffice/DocumentServer/fonts:/usr/share/fonts/truetype/custom'
+            - './app/onlyoffice/DocumentServer/forgotten:/var/lib/onlyoffice/documentserver/App_Data/cache/files/forgotten'
+
+# version: '3.3'
+# services:
+#     documentserver:
+#         image: onlyoffice/documentserver
+#         restart: always
+#         ports:
+#             - '172.17.0.1:19543:80'
+#         volumes:
+#             - './app/onlyoffice/DocumentServer/logs:/var/log/onlyoffice'
+#             - './app/onlyoffice/DocumentServer/data:/var/www/onlyoffice/Data'
+#             - './app/onlyoffice/DocumentServer/lib:/var/lib/onlyoffice'
+#             - './app/onlyoffice/DocumentServer/rabbitmq:/var/lib/rabbitmq'
+#             - './app/onlyoffice/DocumentServer/redis:/var/lib/redis'
+#             - './app/onlyoffice/DocumentServer/db:/var/lib/postgresql'
