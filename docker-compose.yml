@@ -4,4 +4,4 @@ services:
         image: onlyoffice/communityserver
         restart: always
         ports:
-            - '172.17.0.1:19543:80'
+            - '172.17.0.1:19543:443'
