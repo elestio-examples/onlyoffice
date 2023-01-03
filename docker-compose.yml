@@ -162,8 +162,6 @@ services:
      - MYSQL_SERVER_HOST=onlyoffice-mysql-server
      - MYSQL_SERVER_USER=onlyoffice_user
      - MYSQL_SERVER_PASS=${SOFTWARE_PASSWORD}
-    networks:
-     - onlyoffice
     ports:
      - '172.17.0.1:8080:80'
      - '172.17.0.1:19543:443'
