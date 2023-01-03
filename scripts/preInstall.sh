@@ -22,6 +22,7 @@ mkdir controlpanel_log
 chown -R 1000:1000 mysql_data
 chown -R 1000:1000 community_data
 chown -R 1000:1000 community_log
+chown -R 1000:1000 community_letsencrypt
 chown -R 1000:1000 document_data
 chown -R 1000:1000 sys
 chown -R 1000:1000 certs
