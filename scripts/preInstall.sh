@@ -37,7 +37,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 GRANT ALL PRIVILEGES ON *.* TO 'onlyoffice_user'@'%';
 GRANT ALL PRIVILEGES ON *.* TO 'mail_admin'@'%';
 
-FLUSH PRIVILEGES;" > ./app/onlyoffice/mysql/docker-entrypoint-initdb.d/onlyoffice-initdb.sql
+FLUSH PRIVILEGES;" > ./app/onlyoffice/mysql/initdb/onlyoffice-initdb.sql
 
 
 # mkdir mysql_data
