@@ -1,16 +1,16 @@
-# Zammad CI/CD pipeline
+# OnlyOffice CI/CD pipeline
 
 <a href="https://dash.elest.io/deploy?source=cicd&social=dockerCompose&url=https://github.com/elestio-examples/zammad"><img src="deploy-on-elestio.png" alt="Deploy on Elest.io" width="180px" /></a>
 
-Deploy Zammad with CI/CD on Elestio
+Deploy OnlyOffice with CI/CD on Elestio
 
-<img src="zammad.png" style='width: 100%;'/>
+<img src="onlyoffice.png" style='width: 50%;'/>
 <br/>
 <br/>
 
 # Once deployed ...
 
-You must now connect to the portal to create your Zammad Administrator account here:
+You must now connect to the portal to create your OnlyOffice Administrator account here:
 https://[DOMAIN]
 
 In the setup when asked for email sending select "SMTP" then indicate
@@ -21,6 +21,5 @@ In the setup when asked for email sending select "SMTP" then indicate
     port: 25
 
 
-Quickstart guide: https://docs.zammad.org/en/latest/getting-started/first-steps.html
 
-Full documentation for Administrator: https://admin-docs.zammad.org/en/latest/
+Full documentation for Administrator: https://www.onlyoffice.com/developer-edition.aspx
