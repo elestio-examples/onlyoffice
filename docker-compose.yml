@@ -27,8 +27,8 @@ services:
      - ELASTICSEARCH_SERVER_HOST=${ELASTICSEARCH_SERVER_HOST}
      - ELASTICSEARCH_SERVER_HTTPPORT=${ELASTICSEARCH_SERVER_HTTPPORT}
     ports:
-     - '172.17.0.1:41432:443'
-     - '40901:80'
+     - '41431:443'
+     - '172.17.0.1:4143:80'
      - '5222:5222'
     stdin_open: true
     tty: true
@@ -66,7 +66,7 @@ services:
         soft: 65535
         hard: 65535
     volumes:
-      - ./es_data:/usr/share/elasticsearch/data
+      - ./app/es_data:/usr/share/elasticsearch/data
 
   onlyoffice-control-panel:
     image: onlyoffice/controlpanel:3.1.1.467
@@ -78,8 +78,8 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./controlpanel_data:/var/www/onlyoffice/Data
-      - ./controlpanel_log:/var/log/onlyoffice
+      - ./app/controlpanel_data:/var/www/onlyoffice/Data
+      - ./app/controlpanel_log:/var/log/onlyoffice
     stdin_open: true
     tty: true
     depends_on:
