@@ -2,12 +2,14 @@ set env vars
 set -o allexport; source .env; set +o allexport;
 
 mkdir -p "app/onlyoffice/mysql/conf.d";
-mkdir -p "app/onlyoffice/mysql/data";
+mkdir -p "app/onlyoffice/mysql/mysql_data";
 mkdir -p "app/onlyoffice/mysql/initdb";
 
-mkdir -p "app/onlyoffice/CommunityServer/data";
-mkdir -p "app/onlyoffice/CommunityServer/logs";
-mkdir -p "app/onlyoffice/CommunityServer/letsencrypt";
+mkdir -p "app/onlyoffice/CommunityServer/community_data";
+mkdir -p "app/onlyoffice/CommunityServer/community_log";
+mkdir -p "app/onlyoffice/CommunityServer/community_letsencrypt";
+mkdir -p "app/onlyoffice/CommunityServer/certs";
+
 
 mkdir -p "app/onlyoffice/DocumentServer/data";
 mkdir -p "app/onlyoffice/DocumentServer/logs";
@@ -29,10 +31,11 @@ group_concat_max_len = 2048" > ./app/onlyoffice/mysql/conf.d/onlyoffice.cnf
 echo "CREATE DATABASE IF NOT EXISTS onlyoffice CHARACTER SET "utf8" COLLATE "utf8_general_ci";
 CREATE DATABASE IF NOT EXISTS onlyoffice_mailserver CHARACTER SET "utf8" COLLATE "utf8_general_ci";
 
-ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'my-secret-pw';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '${random_password}';
 CREATE USER IF NOT EXISTS 'onlyoffice_user'@'%' IDENTIFIED WITH mysql_native_password BY 'onlyoffice_pass';
 CREATE USER IF NOT EXISTS 'mail_admin'@'%' IDENTIFIED WITH mysql_native_password BY 'Isadmin123';
 
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '${random_password}';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 GRANT ALL PRIVILEGES ON *.* TO 'onlyoffice_user'@'%';
 GRANT ALL PRIVILEGES ON *.* TO 'mail_admin'@'%';
