@@ -28,13 +28,13 @@ services:
      - ELASTICSEARCH_SERVER_HTTPPORT=${ELASTICSEARCH_SERVER_HTTPPORT}
     ports:
      - '41431:443'
-     - '172.17.0.1:4143:80'
+     - '172.17.0.1:19543:80'
      - '5222:5222'
     stdin_open: true
     tty: true
     restart: always
     privileged: true
-#    cgroup: host
+    cgroup: host
     volumes:
      - ./app/onlyoffice/CommunityServer/community_data:/var/www/onlyoffice/Data
      - ./app/onlyoffice/CommunityServer/community_log:/var/log/onlyoffice
@@ -66,7 +66,7 @@ services:
         soft: 65535
         hard: 65535
     volumes:
-      - ./app/es_data:/usr/share/elasticsearch/data
+      - ./es_data:/usr/share/elasticsearch/data
 
   onlyoffice-control-panel:
     image: onlyoffice/controlpanel:3.1.1.467
@@ -85,12 +85,12 @@ services:
     depends_on:
      - onlyoffice-community-server
 
-volumes:
-  community_mysql:
-  community_data:
-  community_log:
-  community_letsencrypt:
-  controlpanel_data:
-  controlpanel_log:
-  mysql_data:
-  es_data:
+# volumes:
+#   community_mysql:
+#   community_data:
+#   community_log:
+#   community_letsencrypt:
+#   controlpanel_data:
+#   controlpanel_log:
+#   mysql_data:
+#   es_data:
