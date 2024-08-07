@@ -10,6 +10,10 @@ ports:
 environments:
   - key: "SOFTWARE_VERSION_TAG"
     value: "12.0.1.1748"
+  - key: "ADMIN_EMAIL"
+    value: "[EMAIL]"
+  - key: "ADMIN_PASSWORD"
+    value: "random_password"
   - key: "MYSQL_ROOT_PASSWORD"
     value: "my-secret-pw"
   - key: "ONLYOFFICE_CORE_MACHINEKEY"
@@ -32,6 +36,8 @@ environments:
     value: "onlyoffice-elasticsearch"
   - key: "ELASTICSEARCH_SERVER_HTTPPORT"
     value: "9200"
+  - key: "WEB_URL"
+    value: "[CI_CD_DOMAIN]"
 config:
   runTime: "dockerCompose"
   version: ""
@@ -51,3 +57,5 @@ lifeCycleConfig:
   postDeployCommand: "./scripts/postDeploy.sh"
 webUI:
   - url: "https://[CI_CD_DOMAIN]"
+    email: "[ADMIN_EMAIL]"
+    password: "[ADMIN_PASSWORD]"
