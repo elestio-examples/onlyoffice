@@ -14,4 +14,4 @@ curl "https://${WEB_URL}/ajaxpro/ASP.usercontrols_firsttime_emailandpassword_asc
   -H 'pragma: no-cache' \
   -H 'priority: u=1, i' \
   -H 'x-ajaxpro-method: SaveData' \
-  --data-raw "{"email":"${ADMIN_EMAIL}","passwordHash":"${passwordhash}","lng":"en-US","promocode":null,"amiid":null,"subscribeFromSite":false}"
+  --data-raw "{\"email\":\"${ADMIN_EMAIL}\",\"passwordHash\":\"${passwordHash}\",\"lng\":\"en-US\",\"promocode\":null,\"amiid\":null,\"subscribeFromSite\":false}"
