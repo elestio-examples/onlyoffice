@@ -1,53 +1,85 @@
-version: "2"
+version: "3"
+
 services:
-  onlyoffice-documentserver:
-    image: onlyoffice/documentserver:${SOFTWARE_VERSION_TAG}
-    depends_on:
-      - postgres
-      - rabbitmq
+  onlyoffice-mysql-server:
+    image: mysql:8.0.29
     environment:
-      - DB_TYPE=${DB_TYPE}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - AMQP_URI=amqp://guest:guest@onlyoffice-rabbitmq
-      # Uncomment strings below to enable the JSON Web Token validation.
-      #- JWT_ENABLED=true
-      #- JWT_SECRET=secret
-      #- JWT_HEADER=Authorization
-      #- JWT_IN_BODY=true
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    stdin_open: true
+    tty: true
+    restart: always
+    volumes:
+      - ./app/onlyoffice/mysql/conf.d:/etc/mysql/conf.d
+      - ./app/onlyoffice/mysql/initdb:/docker-entrypoint-initdb.d
+      - ./app/onlyoffice/mysql/mysql_data:/var/lib/mysql
+
+  onlyoffice-community-server:
+    image: onlyoffice/communityserver:${SOFTWARE_VERSION_TAG}
+    environment:
+      - ONLYOFFICE_CORE_MACHINEKEY=${ONLYOFFICE_CORE_MACHINEKEY}
+      - CONTROL_PANEL_PORT_80_TCP=${CONTROL_PANEL_PORT_80_TCP}
+      - CONTROL_PANEL_PORT_80_TCP_ADDR=${CONTROL_PANEL_PORT_80_TCP_ADDR}
+      - MYSQL_SERVER_ROOT_PASSWORD=${MYSQL_SERVER_ROOT_PASSWORD}
+      - MYSQL_SERVER_DB_NAME=${MYSQL_SERVER_DB_NAME}
+      - MYSQL_SERVER_HOST=${MYSQL_SERVER_HOST}
+      - MYSQL_SERVER_USER=${MYSQL_SERVER_USER}
+      - MYSQL_SERVER_PASS=${MYSQL_SERVER_PASS}
+      - ELASTICSEARCH_SERVER_HOST=${ELASTICSEARCH_SERVER_HOST}
+      - ELASTICSEARCH_SERVER_HTTPPORT=${ELASTICSEARCH_SERVER_HTTPPORT}
     ports:
       - "172.17.0.1:19543:80"
-      # - "443:443"
+      - "5222:5222"
     stdin_open: true
+    tty: true
     restart: always
-    stop_grace_period: 60s
+    privileged: true
+    cgroup: host
     volumes:
-      - ./storage/data:/var/www/onlyoffice/Data
-      - ./storage/log:/var/log/onlyoffice
-      - ./storage/cache:/var/lib/onlyoffice/documentserver/App_Data/cache/files
-      - ./storage/files:/var/www/onlyoffice/documentserver-example/public/files
-      - ./storage/fonts:/usr/share/fonts
+      - ./app/onlyoffice/CommunityServer/community_data:/var/www/onlyoffice/Data
+      - ./app/onlyoffice/CommunityServer/community_log:/var/log/onlyoffice
+      - ./app/onlyoffice/CommunityServer/community_letsencrypt:/etc/letsencrypt
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - ./app/onlyoffice/CommunityServer/certs:/var/www/onlyoffice/Data/certs
+    depends_on:
+      - onlyoffice-mysql-server
+      - onlyoffice-elasticsearch
 
-  rabbitmq:
-    container_name: onlyoffice-rabbitmq
-    image: rabbitmq
+  onlyoffice-elasticsearch:
+    image: onlyoffice/elasticsearch:7.16.3
     restart: always
-    expose:
-      - "5672"
-
-  postgres:
-    container_name: onlyoffice-postgresql
-    image: postgres:12
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      # - POSTGRES_HOST_AUTH_METHOD=trust
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    restart: always
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g -Dlog4j2.formatMsgNoLookups=true"
+      - "indices.fielddata.cache.size=30%"
+      - "indices.memory.index_buffer_size=30%"
+      - "ingest.geoip.downloader.enabled=false"
     expose:
-      - "5432"
+      - "9200"
+      - "9300"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65535
+        hard: 65535
     volumes:
-      - ./postgresql_data:/var/lib/postgresql
+      - ./es_data:/usr/share/elasticsearch/data
+
+  onlyoffice-control-panel:
+    image: onlyoffice/controlpanel:3.1.1.467
+    environment:
+      - ONLYOFFICE_CORE_MACHINEKEY=${ONLYOFFICE_CORE_MACHINEKEY}
+    expose:
+      - "80"
+      - "443"
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./app/controlpanel_data:/var/www/onlyoffice/Data
+      - ./app/controlpanel_log:/var/log/onlyoffice
+    stdin_open: true
+    tty: true
+    depends_on:
+      - onlyoffice-community-server
