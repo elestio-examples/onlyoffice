@@ -57,5 +57,6 @@ lifeCycleConfig:
   postDeployCommand: "./scripts/postDeploy.sh"
 webUI:
   - url: "https://[CI_CD_DOMAIN]"
-    email: "[ADMIN_EMAIL]"
+    label: "OnlyOffice Web UI"
+    login: "[ADMIN_EMAIL]"
     password: "[ADMIN_PASSWORD]"
