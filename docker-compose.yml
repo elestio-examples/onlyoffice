@@ -26,6 +26,10 @@ services:
       - MYSQL_SERVER_PASS=${MYSQL_SERVER_PASS}
       - ELASTICSEARCH_SERVER_HOST=${ELASTICSEARCH_SERVER_HOST}
       - ELASTICSEARCH_SERVER_HTTPPORT=${ELASTICSEARCH_SERVER_HTTPPORT}
+      - DOCUMENT_SERVER_PORT_80_TCP_ADDR=onlyoffice-document-server
+      - DOCUMENT_SERVER_JWT_ENABLED=true
+      - DOCUMENT_SERVER_JWT_SECRET=jwt_secret
+      - DOCUMENT_SERVER_JWT_HEADER=AuthorizationJwt
     ports:
       - "172.17.0.1:19543:80"
       - "5222:5222"
@@ -83,3 +87,23 @@ services:
     tty: true
     depends_on:
       - onlyoffice-community-server
+      - onlyoffice-document-server
+
+  onlyoffice-document-server:
+    container_name: onlyoffice-document-server
+    image: onlyoffice/documentserver:7.1.1.23
+    stdin_open: true
+    tty: true
+    restart: always
+    environment:
+     - JWT_ENABLED=true
+     - JWT_SECRET=jwt_secret
+     - JWT_HEADER=AuthorizationJwt
+    expose:
+      - '80'
+      - '443'
+    volumes:
+       - ./storage/document_data:/var/www/onlyoffice/Data
+       - ./storage/document_log:/var/log/onlyoffice
+       - ./document_fonts:/usr/share/fonts/truetype/custom
+       - ./storage/document_forgotten:/var/lib/onlyoffice/documentserver/App_Data/cache/files/forgotten
