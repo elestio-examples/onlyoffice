@@ -10,6 +10,8 @@ ports:
 environments:
   - key: "SOFTWARE_VERSION_TAG"
     value: "12.0.1.1748"
+  - key: "DOCUMENT_SERVER_VERSION_TAG"
+    value: "7.1.1.23"
   - key: "ADMIN_EMAIL"
     value: "[EMAIL]"
   - key: "ADMIN_PASSWORD"
